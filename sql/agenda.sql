@@ -1,0 +1,10 @@
+CREATE DATABASE agenda;
+USE agenda;
+
+CREATE TABLE contacts(
+id INT UNSIGNED AUTO_INCREMENT,
+NAME VARCHAR (150),
+phone VARCHAR(20),
+observations VARCHAR(255),
+PRIMARY KEY(id)
+);
