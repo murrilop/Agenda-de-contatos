@@ -29,7 +29,7 @@
 
         try{
             $stmt->execute();
-            $_SESSION['msg'] = 'contato criado com sucesso';
+            $_SESSION['msg'] = 'Contato criado com sucesso';
 
         } catch(PDOException $e){
             //erro na conexão
@@ -54,7 +54,7 @@
 
         try{
             $stmt->execute();
-            $_SESSION['msg'] = 'contato editado com sucesso!';
+            $_SESSION['msg'] = 'Contato editado com sucesso!';
 
         } catch(PDOException $e){
             //erro na conexão
@@ -62,6 +62,24 @@
             echo "Erro: $error";
         }
     
+    }else if($data["type"] === "delete"){
+        $id = $data["id"];
+
+        $query = "DELETE from contacts WHERE id = :id";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+
+        try{
+            $stmt->execute();
+            $_SESSION['msg'] = 'Contato deletado com sucesso!';
+
+        } catch(PDOException $e){
+            //erro na conexão
+            $error = $e->getMessage();
+            echo "Erro: $error";
+        }
     }
     //REDIRECT HOME
     header("location:" . $BASE_URL . "../index.php");
