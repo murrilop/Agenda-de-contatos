@@ -36,12 +36,38 @@
             $error = $e->getMessage();
             echo "Erro: $error";
         }
-        //REDIRECT HOME
-        header("location:" . $BASE_URL . "../index.php");
-     }
+    }else if($data["type"] === "edit"){
 
+        $name = $data["name"];
+        $phone = $data["phone"];
+        $observations = $data["observations"];
+        $id = $data["id"];
+
+        $query = "UPDATE contacts set name = :name, phone = :phone, observations = :observations where id = :id";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindParam(":name", $name);
+        $stmt->bindParam(":phone", $phone);
+        $stmt->bindParam(":observations", $observations);
+        $stmt->bindParam(":id", $id);
+
+        try{
+            $stmt->execute();
+            $_SESSION['msg'] = 'contato editado com sucesso!';
+
+        } catch(PDOException $e){
+            //erro na conexão
+            $error = $e->getMessage();
+            echo "Erro: $error";
+        }
+    
+    }
+    //REDIRECT HOME
+    header("location:" . $BASE_URL . "../index.php");
+
+     //SELEÇÃO DE DADOS
     }else{
-    //SELEÇÃO DE DADOS
 
         if(!empty($_GET)){
             $id = $_GET["id"];
@@ -74,6 +100,7 @@
         $contacts = $stmt->fetchALL();
         }    
     }
+
 
 //FECHAR CONEXÃO
 
